@@ -2,7 +2,7 @@
 import express from "express";
 //internal imports
 import { createListing } from "../controllers/listing.controller.js";
-import verifyUser from "../utils/verifyUser";
+import verifyUser from "../utils/verifyUser.js";
 
 const router = express.Router();
 
