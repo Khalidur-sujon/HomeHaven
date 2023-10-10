@@ -99,6 +99,21 @@ const CreateListing = () => {
 								<span className="text-xs">($/Month)</span>
 							</div>
 						</div>
+						{/* discounted price */}
+						<div className="flex gap-2 items-center">
+							<input
+								type="number"
+								min="1"
+								max="10"
+								id="discountedPrice"
+								required
+								className="border p-3 rounded-lg focus:outline-none"
+							/>
+							<div className="flex flex-col items-center">
+								<p>Discounted Price</p>
+								<span className="text-xs">($/Month)</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				{/* image section */}

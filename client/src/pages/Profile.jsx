@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import {
 	signOut,
@@ -97,10 +97,16 @@ const Profile = () => {
 				/>
 				<button
 					disabled={loading}
-					className="bg-slate-700 text-white p-3 rounded-lg uppercase"
+					className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
 				>
 					{loading ? "Loading..." : "Update"}
 				</button>
+				<Link
+					to="/create-listing"
+					className="bg-green-700 text-white p-3 rounded-lg uppercase hover:opacity-95 text-center"
+				>
+					Create Listing
+				</Link>
 			</form>
 			<div className="flex justify-between items-center text-base text-red-700 px-3 mt-2">
 				<span>Delete Account</span>
