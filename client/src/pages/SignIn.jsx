@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 import {
 	signInStart,
@@ -10,7 +11,7 @@ import {
 
 const SignIn = () => {
 	const [formData, setformData] = useState({});
-	const { loading, error } = useSelector((state) => state.user);
+	const { loading } = useSelector((state) => state.user);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -37,14 +38,17 @@ const SignIn = () => {
 
 			if (data.success !== false) {
 				dispatch(signInSuccess(data));
+				toast.success("Sign In Successfull");
 				navigate("/profile");
 			}
 
 			if (data.success === false) {
+				toast.error(data.message);
 				dispatch(signInFailure(data));
 				return;
 			}
 		} catch (error) {
+			toast.error(error);
 			dispatch(signInFailure(error));
 		}
 	};
@@ -87,13 +91,13 @@ const SignIn = () => {
 					<span className="text-blue-700 underline">Sign Up</span>
 				</Link>
 			</p>
-			{error ? (
+			{/* {error ? (
 				<span className="text-xs text-red-700  mt-1">
 					{error.message || "Some thing went wrong"}
 				</span>
 			) : (
 				""
-			)}
+			)} */}
 		</div>
 	);
 };

@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import {
 	signOut,
@@ -11,6 +13,7 @@ import {
 const Profile = () => {
 	const dispatch = useDispatch();
 	const [formData, setformData] = useState({});
+	const navigate = useNavigate();
 
 	const { currentUser, loading, error } = useSelector((state) => state.user);
 
@@ -35,16 +38,17 @@ const Profile = () => {
 
 			if (data.success !== false) {
 				dispatch(userProfileUpdateSuccess(data));
+				toast.success("Update Successfull");
 			}
 
 			if (data.success === false) {
 				dispatch(userProfileUpdateFailure(data));
-				console.log(data.message);
+				toast.error(data.message);
 				return;
 			}
 		} catch (error) {
 			dispatch(userProfileUpdateFailure(error));
-			console.log(error);
+			toast.error(error);
 		}
 	};
 
@@ -52,6 +56,8 @@ const Profile = () => {
 		try {
 			await fetch("/api/auth/sign-out");
 			dispatch(signOut());
+			toast.success("Signout Successful.");
+			navigate("/sign-in");
 		} catch (error) {
 			console.log(error);
 		}
@@ -89,13 +95,18 @@ const Profile = () => {
 					className="text-base p-3 border rounded-lg focus:outline-none placeholder:italic"
 					onChange={handleOnChange}
 				/>
-				<button className="bg-slate-700 text-white p-3 rounded-lg uppercase">
-					Update
+				<button
+					disabled={loading}
+					className="bg-slate-700 text-white p-3 rounded-lg uppercase"
+				>
+					{loading ? "Loading..." : "Update"}
 				</button>
 			</form>
-			<div className="flex justify-between items-center text-base text-red-700 px-3 mt-1">
+			<div className="flex justify-between items-center text-base text-red-700 px-3 mt-2">
 				<span>Delete Account</span>
-				<span onClick={handleSignOut}>Sign out</span>
+				<span onClick={handleSignOut} className="cursor-pointer">
+					Sign out
+				</span>
 			</div>
 		</div>
 	);
