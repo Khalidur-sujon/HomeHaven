@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
+import listingRoutes from "./routes/listing.route.js";
 import { errorHandler } from "./middware/errorMiddleware.js";
 
 const app = express();
@@ -24,6 +25,7 @@ app.listen(3000, () => console.log("Server is running on port:", PORT));
 //routes
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/listing", listingRoutes);
 
 //error handler
 app.use(errorHandler);
