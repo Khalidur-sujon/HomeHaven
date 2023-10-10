@@ -1,8 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const SignUp = () => {
 	const [formData, setformData] = useState({});
+	const [loading, setloading] = useState(false);
+	const [error, seterror] = useState(false);
+
+	const navigate = useNavigate();
 
 	const handleOnChange = (e) => {
 		setformData({ ...formData, [e.target.id]: e.target.value });
@@ -12,6 +16,9 @@ const SignUp = () => {
 		e.preventDefault();
 		//data fetching
 		try {
+			setloading(true);
+			seterror(false);
+
 			const res = await fetch("/api/auth/sign-up", {
 				method: "POST",
 				headers: {
@@ -21,8 +28,20 @@ const SignUp = () => {
 			});
 
 			const data = await res.json();
+			setloading(false);
+
+			if (data.success !== false) {
+				navigate("/sign-in");
+			}
+
+			if (data.success === false) {
+				seterror(true);
+				return;
+			}
+			seterror(false);
 		} catch (error) {
-			console.log(error);
+			setloading(false);
+			seterror(true);
 		}
 	};
 
@@ -31,7 +50,10 @@ const SignUp = () => {
 			<h1 className="text-3xl font-bold text-center drop-shadow">
 				Sign Up
 			</h1>
-			<form className="flex flex-col gap-4" onSubmit={handleOnSubmit}>
+			<form
+				className="flex flex-col gap-4"
+				onSubmit={(e) => handleOnSubmit(e)}
+			>
 				<input
 					type="text"
 					id="username"
@@ -56,8 +78,11 @@ const SignUp = () => {
 					className="text-base p-3 border rounded-lg focus:outline-none placeholder:italic"
 					onChange={handleOnChange}
 				/>
-				<button className="bg-slate-700 text-white p-3 rounded-lg uppercase">
-					Sign Up
+				<button
+					disabled={loading}
+					className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+				>
+					{loading ? "Loading ... " : "Sign Up"}
 				</button>
 			</form>
 			<p className="flex gap-2">
@@ -66,6 +91,13 @@ const SignUp = () => {
 					<span className="text-blue-700 underline">Sign In</span>
 				</Link>
 			</p>
+			{error ? (
+				<span className="text-xs text-red-700  mt-1">
+					Some thing went wrong
+				</span>
+			) : (
+				""
+			)}
 		</div>
 	);
 };
