@@ -1,9 +1,11 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
+import customError from "../utils/customError.js";
+
 //API
 //ROUTE:  /api/auth/sign-up
-export const SignUp = async (req, res) => {
+export const SignUp = async (req, res, next) => {
 	const { username, email, password } = req.body;
 
 	//hashed the password
@@ -19,6 +21,6 @@ export const SignUp = async (req, res) => {
 		await newUser.save();
 		res.status(200).json({ message: "User Created Successfull" });
 	} catch (error) {
-		console.log(error);
+		next(customError(500, "Internal server error"));
 	}
 };
