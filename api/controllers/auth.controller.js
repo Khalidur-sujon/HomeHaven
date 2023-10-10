@@ -59,3 +59,11 @@ export const SignIn = async (req, res, next) => {
 		next(error);
 	}
 };
+
+//API
+//ROUTE : /api/auth/sign-out
+export const SignOut = (req, res) => {
+	res.clearCookie("access_token")
+		.status(200)
+		.json({ message: "Sign Out Success" });
+};

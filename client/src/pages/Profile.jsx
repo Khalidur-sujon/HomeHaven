@@ -1,6 +1,19 @@
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { signOut } from "../redux/user/userSlice";
 
 const Profile = () => {
+	const dispatch = useDispatch();
+
+	const handleSignOut = async () => {
+		try {
+			await fetch("/api/auth/sign-out");
+			dispatch(signOut());
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div className=" max-w-lg mx-auto flex flex-col gap-y-4 p-3">
 			<h1 className="text-3xl font-bold text-center drop-shadow">
@@ -34,7 +47,7 @@ const Profile = () => {
 			</form>
 			<div className="flex justify-between items-center text-base text-red-700 px-3 mt-1">
 				<span>Delete Account</span>
-				<span>Sign out</span>
+				<span onClick={handleSignOut}>Sign out</span>
 			</div>
 		</div>
 	);
