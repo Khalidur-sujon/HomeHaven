@@ -1,6 +1,7 @@
 //external imports
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 // internal imports
 import connectDB from "./config/db.js";
@@ -11,6 +12,8 @@ import { errorHandler } from "./middware/errorMiddleware.js";
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
+
 dotenv.config();
 connectDB();
 
