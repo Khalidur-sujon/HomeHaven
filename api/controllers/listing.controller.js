@@ -32,3 +32,28 @@ export const deleteListingItem = async (req, res, next) => {
 		next(error);
 	}
 };
+
+//API
+//ROUTE: /api/listing/deleteListing/:id
+export const updateListingItem = async (req, res, next) => {
+	try {
+		//find the listing item
+		const listing = await Listing.findById(req.params.id);
+		if (!listing) {
+			return next(customError(404, "Listing not found"));
+		}
+		// if listing found, then verify the user
+		if (req.user.id !== listing.userRef) {
+			return next(customError(401, "You can edit only your listing"));
+		}
+		//if everything goes well then find the item and edit that
+		const updatedListing = await Listing.findByIdAndUpdate(
+			req.params.id,
+			req.body,
+			{ new: true }
+		);
+		res.status(200).json(updatedListing);
+	} catch (error) {
+		next(error);
+	}
+};
