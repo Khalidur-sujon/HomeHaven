@@ -86,6 +86,29 @@ const Profile = () => {
 		}
 	};
 
+	//delete listing item
+	const deleteListingItem = async (listingId) => {
+		try {
+			const res = await fetch(`/api/listing/deleteListing/${listingId}`, {
+				method: "DELETE",
+			});
+
+			const data = await res.json();
+
+			if (data.success === false) {
+				console.log(data.message);
+				return;
+			}
+
+			// success, now update the userLisitngs
+			setuserListings((prevData) => {
+				prevData.filter((listingItem) => listingItem._id !== listingId);
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div className=" max-w-lg mx-auto flex flex-col gap-y-4 p-3">
 			<h1 className="text-3xl font-bold text-center drop-shadow">
@@ -178,7 +201,12 @@ const Profile = () => {
 							{/* listing edit/delete link */}
 
 							<div className="flex flex-col  item-center gap-2">
-								<button className="text-red-700 uppercase">
+								<button
+									className="text-red-700 uppercase"
+									onClick={() =>
+										deleteListingItem(listing._id)
+									}
+								>
 									Delete
 								</button>
 								<Link to={`/update-listing/${listing._id}`}>
