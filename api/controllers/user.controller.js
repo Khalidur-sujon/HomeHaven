@@ -1,7 +1,11 @@
 import User from "../models/user.model.js";
+import Listing from "../models/listing.model.js";
+
 import bcrypt from "bcryptjs";
 import customError from "../utils/customError.js";
 
+//API
+//ROUTE: /api/user/update/:id
 export const updateProfile = async (req, res, next) => {
 	if (req.user.id !== req.params.id)
 		return next(customError(401, "Unauthorized"));
@@ -29,5 +33,20 @@ export const updateProfile = async (req, res, next) => {
 		res.status(200).json(rest);
 	} catch (error) {
 		next(error);
+	}
+};
+
+//API
+//ROUTE: /api/user/getListing/id
+export const getUserListings = async (req, res, next) => {
+	if (req.user.id === req.params.id) {
+		try {
+			const listings = await Listing.find({ useRef: req.params.id });
+			res.status(200).json(listings);
+		} catch (error) {
+			next(error);
+		}
+	} else {
+		next(customError(401, "You can view only your listings"));
 	}
 };
