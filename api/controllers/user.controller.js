@@ -50,3 +50,18 @@ export const getUserListings = async (req, res, next) => {
 		next(customError(401, "You can view only your listings"));
 	}
 };
+
+//API
+//ROUTE: /api/user/:id
+export const getUser = async (req, res, next) => {
+	try {
+		const user = await User.findById(req.params.id);
+		if (!user) return next(customError(404, "User Not Found"));
+
+		//user found
+		const { password: pass, ...rest } = user._doc;
+		res.status(200).json(rest);
+	} catch (error) {
+		next(error);
+	}
+};
