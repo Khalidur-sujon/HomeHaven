@@ -57,3 +57,17 @@ export const updateListingItem = async (req, res, next) => {
 		next(error);
 	}
 };
+
+//API
+//ROUTE: /api/listing/get/:id
+export const getListing = async (req, res, next) => {
+	try {
+		const listing = await Listing.findById(req.params.id);
+
+		if (!listing) return next(customError(404, "Listing not found"));
+		//if found
+		res.status(200).json(listing);
+	} catch (error) {
+		next(error);
+	}
+};
