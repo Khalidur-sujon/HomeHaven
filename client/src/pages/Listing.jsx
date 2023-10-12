@@ -44,8 +44,9 @@ const Listing = () => {
 					seterror(true);
 					return;
 				}
-				seterror(false);
 				setlisting(data);
+				seterror(false);
+				setloading(false);
 			} catch (error) {
 				seterror(true);
 				setloading(false);
