@@ -55,7 +55,7 @@ const UpdateListing = () => {
 		};
 
 		fetchListing();
-	}, []);
+	}, [params.listingId]);
 
 	const handleChange = (e) => {
 		// typed value
