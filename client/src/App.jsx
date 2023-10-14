@@ -10,6 +10,7 @@ import {
 	CreateListing,
 	Listing,
 	UpdateListing,
+	Search,
 } from "./pages";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
@@ -26,6 +27,7 @@ const App = () => {
 					<Route path="/sign-in" element={<SignIn />} />
 					<Route path="/sign-up" element={<SignUp />} />
 					<Route path="/listing/:id" element={<Listing />} />
+					<Route path="/search" element={<Search />} />
 					<Route element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
 						<Route
