@@ -15,6 +15,7 @@ const Search = () => {
 	});
 	const [loading, setloading] = useState(false);
 	const [listings, setlistings] = useState([]);
+	const [showMore, setshowMore] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -58,6 +59,12 @@ const Search = () => {
 				const res = await fetch(`/api/listing/get?${searchQuery}`);
 
 				const data = await res.json();
+
+				if (data.length > 8) {
+					setshowMore(true);
+				} else {
+					setshowMore(false);
+				}
 				setlistings(data);
 				setloading(false);
 			} catch (error) {
@@ -124,6 +131,24 @@ const Search = () => {
 
 		//navigate to this link
 		navigate(`/search?${searchQuery}`);
+	};
+
+	//handle show more
+	const handleShowMore = async () => {
+		const numberOfListings = listings.length;
+		const startIndex = numberOfListings;
+
+		const urlParams = new URLSearchParams(location.search);
+		urlParams.set("startIndex", startIndex);
+
+		const searchQuery = urlParams.toString();
+		const res = await fetch(`/api/lisitng/get?${searchQuery}`);
+
+		const data = await res.json();
+		if (data.length < 9) {
+			setshowMore(false);
+		}
+		setlistings({ ...listings, ...data });
 	};
 
 	return (
@@ -257,6 +282,16 @@ const Search = () => {
 						listings.map((listing) => (
 							<ListingItem key={listing._id} listing={listing} />
 						))}
+
+					{/* show more  */}
+					{showMore && (
+						<button
+							className="text-green-700 hover:underline text-center text-sm w-full"
+							onClick={handleShowMore}
+						>
+							Show More
+						</button>
+					)}
 				</div>
 			</div>
 		</div>
