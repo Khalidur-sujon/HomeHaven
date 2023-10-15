@@ -142,7 +142,7 @@ const Search = () => {
 		urlParams.set("startIndex", startIndex);
 
 		const searchQuery = urlParams.toString();
-		const res = await fetch(`/api/lisitng/get?${searchQuery}`);
+		const res = await fetch(`/api/listing/get?${searchQuery}`);
 
 		const data = await res.json();
 		if (data.length < 9) {
@@ -265,14 +265,14 @@ const Search = () => {
 				<h2 className="text-3xl font-semibold border-b p-3 text-center text-slate-700">
 					Listing Results
 				</h2>
-				<div className="p-7 flex flex-wrap gap-5">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-7">
 					{!loading && listings.length === 0 && (
 						<p className="text-xl text-slate-700">
 							No Listing Found
 						</p>
 					)}
 					{loading && (
-						<p className="text-xl text-slate-700 text-center w-full">
+						<p className="text-xl text-slate-700 text-center w-full mx-auto animate-pulse">
 							Loading ...
 						</p>
 					)}
@@ -284,14 +284,14 @@ const Search = () => {
 						))}
 
 					{/* show more  */}
-					{showMore && (
+					{/* {showMore && (
 						<button
 							className="text-green-700 hover:underline text-center text-sm w-full"
 							onClick={handleShowMore}
 						>
 							Show More
 						</button>
-					)}
+					)} */}
 				</div>
 			</div>
 		</div>

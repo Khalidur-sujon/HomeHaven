@@ -53,8 +53,8 @@ const ListingItem = ({ listing }) => {
 					</div>
 					<div className="font-bold text-xs">
 						{bathrooms > 1
-							? `${bathrooms} beds`
-							: `${bathrooms} bed`}
+							? `${bathrooms} baths`
+							: `${bathrooms} bath`}
 					</div>
 				</div>
 				<p className="text-sm text-gray-600">{description}</p>

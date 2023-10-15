@@ -1,10 +1,12 @@
 import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Header = () => {
 	const [searchTerm, setsearchTerm] = useState("");
 	const navigate = useNavigate();
+	const { currentUser } = useSelector((state) => state.user);
 
 	//handle search
 	const handleSubmitHandler = (e) => {
@@ -71,11 +73,29 @@ const Header = () => {
 						</li>
 					</Link>
 
-					<Link to="/sign-in">
-						<li className="hidden sm:inline text-slate-700 hover:underline font-medium">
-							SignIn
-						</li>
-					</Link>
+					{currentUser && currentUser.email ? (
+						<Link
+							to="/profile"
+							className="hover:drop-shadow-lg hover:scale-95 transition duration-300"
+						>
+							<p className="font-normal">
+								Hi,
+								<span className="font-semibold italic  text-slate-700 ml-2 uppercase">
+									{currentUser.username.length > 4
+										? currentUser.username.slice(0, 4)
+										: currentUser.username.length < 4
+										? currentUser.username
+										: ""}
+								</span>
+							</p>
+						</Link>
+					) : (
+						<Link to="/sign-in">
+							<li className="hidden sm:inline text-slate-700 hover:underline font-medium">
+								SignIn
+							</li>
+						</Link>
+					)}
 				</ul>
 			</div>
 		</header>

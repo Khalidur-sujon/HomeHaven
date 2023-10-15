@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import SwiperCore from "swiper";
+import "swiper/css/bundle";
+
 import ListingItem from "../components/ListingItem";
 
 const Home = () => {
 	const [offerListings, setofferListings] = useState([]);
 	const [rentLisitngs, setrentLisitngs] = useState([]);
 	const [saleListings, setsaleListings] = useState([]);
+	SwiperCore.use([Navigation]);
 
 	useEffect(() => {
 		const fetchOfferListings = async () => {
@@ -47,7 +53,7 @@ const Home = () => {
 		<div>
 			{/* top */}
 			<div className="flex flex-col mx-auto max-w-6xl p-28 px-3  gap-6">
-				<h1 className="text-3xl lg:text-5xl font-bold text-slate-700 w-full max-w-4xl">
+				<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-700 w-full max-w-4xl">
 					Effortlessly Navigate Your Way to <br /> the{" "}
 					<span className="text-slate-500">Perfect</span> Place for
 					You.
@@ -67,6 +73,22 @@ const Home = () => {
 				</Link>
 			</div>
 			{/* swiper */}
+			<Swiper navigation>
+				{offerListings &&
+					offerListings.length > 0 &&
+					offerListings.map((listing) => (
+						<SwiperSlide key={listing._id}>
+							<div
+								key={listing._id}
+								style={{
+									background: `url(${listing.imageUrls[0]}) center no-repeat`,
+									backgroundSize: "cover",
+								}}
+								className="h-[550px]"
+							></div>
+						</SwiperSlide>
+					))}
+			</Swiper>
 			{/* lisitngs item */}
 			<div className="flex flex-col mx-auto gap-8 my-10 p-3 max-w-6xl">
 				{/* display offer listings */}
@@ -83,7 +105,7 @@ const Home = () => {
 								Show more offers
 							</Link>
 						</div>
-						<div className="flex flex-wrap gap-4">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 							{offerListings.map((listing) => (
 								<ListingItem
 									listing={listing}
@@ -108,7 +130,7 @@ const Home = () => {
 								Show more places for rent
 							</Link>
 						</div>
-						<div className="flex flex-wrap gap-4">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 							{rentLisitngs.map((listing) => (
 								<ListingItem
 									listing={listing}
@@ -133,7 +155,7 @@ const Home = () => {
 								Show more places for sale
 							</Link>
 						</div>
-						<div className="flex flex-wrap gap-4">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 							{saleListings.map((listing) => (
 								<ListingItem
 									listing={listing}
