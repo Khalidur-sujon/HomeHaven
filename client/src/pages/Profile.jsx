@@ -110,7 +110,7 @@ const Profile = () => {
 	};
 
 	return (
-		<div className=" max-w-lg mx-auto flex flex-col gap-y-4 p-3">
+		<div className=" max-w-lg mx-auto flex flex-col gap-y-4 p-3 h-screen">
 			<h1 className="text-3xl font-bold text-center drop-shadow">
 				Profile
 			</h1>
